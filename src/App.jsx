@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -26,7 +26,7 @@ import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Router basename="/posada-del-cerro">
+    <Router>
       <div className="min-h-screen bg-[#F4ECD8] flex flex-col font-sans">
         <ScrollToTop />
         <Routes>

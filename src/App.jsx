@@ -26,7 +26,7 @@ import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/posada-del-cerro">
       <div className="min-h-screen bg-[#F4ECD8] flex flex-col font-sans">
         <ScrollToTop />
         <Routes>

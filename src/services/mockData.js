@@ -7,6 +7,11 @@ export const MOCK_ROOMS = [
     bedType: "King Size",
     description: "Nuestra suite más exclusiva con vista directa al Cordón del Plata y tina de hidromasaje privada.",
     image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1000",
+    gallery: [
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1000",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000",
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1000"
+    ],
     amenities: ['wifi', 'ac', 'tv', 'coffee', 'breakfast', 'pool'],
     published: true
   },
@@ -17,7 +22,12 @@ export const MOCK_ROOMS = [
     capacity: 2,
     bedType: "Queen Size",
     description: "Despierta rodeado de viñas. Una experiencia rústica-moderna con todo el confort boutique.",
-    image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1000",
+    image: "habitacion-deluxe.jpg",
+    gallery: [
+      "habitacion-deluxe.jpg",
+      "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1000",
+      "https://images.unsplash.com/photo-1537726235470-8504e3beef77?q=80&w=1000"
+    ],
     amenities: ['wifi', 'ac', 'tv', 'breakfast', 'pool'],
     published: true
   },
@@ -29,6 +39,11 @@ export const MOCK_ROOMS = [
     bedType: "1 King + 2 Twin",
     description: "Espacio amplio de dos niveles, ideal para familias que buscan desconexión y aventura.",
     image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1000",
+    gallery: [
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1000",
+      "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000",
+      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1000"
+    ],
     amenities: ['wifi', 'ac', 'tv', 'coffee', 'breakfast', 'pool'],
     published: true
   },
@@ -40,28 +55,33 @@ export const MOCK_ROOMS = [
     bedType: "Super King Size",
     description: "La joya de la corona. 120m2 de puro lujo con terraza privada, cava de vinos personal y mayordomo las 24hs. Una experiencia diseñada para los gustos más exigentes que buscan la máxima privacidad y exclusividad en el corazón de Mendoza.",
     image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1000",
+    gallery: [
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1000",
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1000",
+      "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=1000"
+    ],
     amenities: ['wifi', 'ac', 'tv', 'coffee', 'breakfast', 'pool', 'gym', 'spa'],
     published: true
   }
 ];
 
 export const MOCK_GALLERY = [
-  { id: 'g1', url: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1000", category: 'habitaciones' },
-  { id: 'g2', url: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000", category: 'habitaciones' },
+  { id: 'g1', url: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1000", category: 'espacios' },
+  { id: 'g2', url: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1000", category: 'habitaciones' },
   { id: 'g3', url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000", category: 'espacios' },
   { id: 'g4', url: "https://images.unsplash.com/photo-1506102383123-c8ef1e872756?q=80&w=1000", category: 'jardin' },
-  { id: 'g5', url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000", category: 'espacios' },
+  { id: 'g5', url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1000", category: 'espacios' },
   { id: 'g6', url: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000", category: 'desayuno' },
-  { id: 'g7', url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1000", category: 'espacios' },
+  { id: 'g7', url: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1000", category: 'habitaciones' },
   { id: 'g8', url: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=1000", category: 'jardin' },
   { id: 'g9', url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1000", category: 'habitaciones' },
-  { id: 'g10', url: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1000", category: 'espacios' },
-  { id: 'g11', url: "https://images.unsplash.com/photo-1561501900-3701fa6a0864?q=80&w=1000", category: 'jardin' },
-  { id: 'g12', url: "https://images.unsplash.com/photo-1551882547-ff43c6364721?q=80&w=1000", category: 'desayuno' },
-  { id: 'g13', url: "https://images.unsplash.com/photo-1493106819501-66d381c466f1?q=80&w=1000", category: 'espacios' },
-  { id: 'g14', url: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1000", category: 'habitaciones' },
+  { id: 'g10', url: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1000", category: 'habitaciones' },
+  { id: 'g11', url: "patio.jpg", category: 'jardin' },
+  { id: 'g12', url: "terraza.jpg", category: 'desayuno' },
+  { id: 'g13', url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=1000", category: 'espacios' },
+  { id: 'g14', url: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1000", category: 'habitaciones' },
   { id: 'g15', url: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=1000", category: 'espacios' },
-  { id: 'g16', url: "https://images.unsplash.com/photo-1521783593447-5702b89d26f0?q=80&w=1000", category: 'espacios' }
+  { id: 'g16', url: "pasillo.jpg", category: 'espacios' }
 ];
 
 export const MOCK_BLOG = [
@@ -126,4 +146,41 @@ export const MOCK_BLOG = [
     createdAt: { seconds: 1741612800 }
   }
 ];
-
+export const MOCK_REVIEWS = [
+  {
+    id: 'r1',
+    name: 'Valentina Ramos',
+    rating: 5,
+    comment: 'Una experiencia absolutamente mágica. Las vistas al Cordón del Plata desde la suite son impresionantes, y el desayuno casero con productos de la zona fue el mejor que prové. Volvemos sin dudas.',
+    photo: 'https://i.pravatar.cc/150?img=47',
+    approved: true,
+    createdAt: { seconds: 1742044800 }
+  },
+  {
+    id: 'r2',
+    name: 'Marcus Hoffmann',
+    rating: 5,
+    comment: 'Stayed 5 nights and it felt like a home. The team went above and beyond — private wine tasting, sunset horse ride, and the most comfortable bed I\'ve slept in on my entire South America trip.',
+    photo: 'https://i.pravatar.cc/150?img=12',
+    approved: true,
+    createdAt: { seconds: 1741612800 }
+  },
+  {
+    id: 'r3',
+    name: 'Camila Fernández',
+    rating: 5,
+    comment: 'El concepto boutique no es solo marketing acá. Cada detalle está pensado: desde los aromas del cuarto hasta la curación musical del bar. Uno de los mejores lugares donde me hospedé en Argentina.',
+    photo: 'https://i.pravatar.cc/150?img=32',
+    approved: true,
+    createdAt: { seconds: 1741180800 }
+  },
+  {
+    id: 'r4',
+    name: 'Diego & Lucia Torres',
+    rating: 4,
+    comment: 'Fuimos por nuestra luna de miel y superaron todas las expectativas. La privacidad, el silencio y la naturaleza te desconectan completamente. La tina de hidromasaje con vista a la montaña es el lujo definitivo.',
+    photo: 'https://i.pravatar.cc/150?img=25',
+    approved: true,
+    createdAt: { seconds: 1740748800 }
+  }
+];

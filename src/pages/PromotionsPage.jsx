@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { Tag, Calendar, Gift, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PromotionsPage = () => {
+  const { t } = useTranslation();
   const promos = [
     {
       title: "Escapada Romántica",
@@ -32,16 +35,20 @@ const PromotionsPage = () => {
 
   return (
     <div className="pt-20 bg-primary-beige/5 min-h-screen pb-24">
+      <Helmet>
+        <title>{t('navbar.promotions')} | La Posada del Cerro</title>
+        <meta name="description" content="Aprovecha nuestras promociones exclusivas para tu estadía en Mendoza." />
+      </Helmet>
       {/* Header */}
-      <section className="bg-primary-olive/10 py-24 border-b border-primary-olive/10">
+      <section className="py-24 border-b border-primary-brown/10">
          <div className="max-w-7xl mx-auto px-4 text-center">
             <div className="inline-flex items-center space-x-2 bg-primary-olive text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
                 <Tag size={14} />
-                <span>Ofertas Exclusivas</span>
+                <span>{t('promotions.headerBadge')}</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-serif text-primary-brown mb-6">Promociones</h1>
+            <h1 className="text-5xl md:text-7xl font-serif text-primary-brown mb-6">{t('promotions.headerTitle')}</h1>
             <p className="text-xl text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-              Aprovecha nuestras ofertas especiales y vive la experiencia boutique de Mendoza a un precio preferencial.
+              {t('promotions.headerSubtitle')}
             </p>
          </div>
       </section>
@@ -71,7 +78,7 @@ const PromotionsPage = () => {
                      </p>
                      <div className="flex items-center justify-between mt-auto pt-8 border-t border-gray-50">
                         <div className="text-3xl font-serif text-primary-brown font-bold flex flex-col">
-                           <span className="text-xs text-gray-400 font-sans uppercase tracking-[0.2em]">Accede a</span>
+                           <span className="text-xs text-gray-400 font-sans uppercase tracking-[0.2em]">{t('promotions.priceText')}</span>
                            {promo.price}
                         </div>
                         <Link 
@@ -87,24 +94,7 @@ const PromotionsPage = () => {
          </div>
       </section>
 
-      {/* Trust Banner */}
-      <section className="max-w-7xl mx-auto px-4 mt-32">
-         <div className="bg-primary-brown rounded-[4rem] p-12 md:p-20 text-center text-white flex flex-col md:flex-row items-center justify-around gap-12 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-            
-            <div className="max-w-sm">
-                <Heart className="w-12 h-12 text-primary-beige mx-auto mb-6" />
-                <h4 className="text-2xl font-serif mb-4">Membresía del Cerro</h4>
-                <p className="text-primary-beige/60">Únete a nuestro club de huéspedes y recibe un 10% adicional permanente en todas las reservas directas.</p>
-            </div>
-            
-            <div className="h-px w-24 bg-white/10 hidden md:block" />
-            
-            <Link to="/#contact" className="bg-white text-primary-brown px-12 py-5 rounded-2xl font-bold shadow-2xl hover:bg-primary-beige transition-all active:scale-95 whitespace-nowrap">
-                Registrarse Gratis
-            </Link>
-         </div>
-      </section>
+      {/* Trust Banner removed by user request */}
     </div>
   );
 };

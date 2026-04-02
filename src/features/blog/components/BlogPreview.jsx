@@ -22,7 +22,7 @@ const BlogPreview = () => {
   ];
 
   return (
-    <section id="blog" className="py-24 bg-white">
+    <section id="blog" className="py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
           <div className="text-left">

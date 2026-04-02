@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Calendar, ArrowLeft, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { db, isDemoMode } from '../services/firebase';
@@ -43,6 +44,9 @@ const BlogDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F4ECD8]">
+        <Helmet>
+          <title>Blog | La Posada del Cerro</title>
+        </Helmet>
         <Loader2 className="w-12 h-12 text-primary-brown animate-spin" />
       </div>
     );
@@ -59,6 +63,10 @@ const BlogDetail = () => {
 
   return (
     <div className="pt-32 pb-24 bg-[#F4ECD8] min-h-screen">
+      <Helmet>
+        <title>{post.title} | Blog La Posada</title>
+        <meta name="description" content={post.summary || "Explora más sobre Mendoza en nuestro blog boutique."} />
+      </Helmet>
       <div className="max-w-4xl mx-auto px-4">
         <Link to="/blog" className="flex items-center text-primary-brown font-bold mb-12 hover:translate-x-[-4px] transition-transform">
           <ArrowLeft className="w-5 h-5 mr-2" /> Volver al blog

@@ -51,23 +51,23 @@ const RoomsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-primary-beige/5">
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
         <Helmet>
-          <title>Cargando... | La Posada del Cerro</title>
+          <title>{t('rooms.title')} | La Posada del Cerro</title>
         </Helmet>
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-primary-brown animate-spin mx-auto mb-4" />
-          <p className="text-primary-brown font-medium animate-pulse">Cargando habitaciones...</p>
+          <p className="text-primary-brown font-medium animate-pulse">{t('rooms.loading') || 'Cargando habitaciones...'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-20 bg-primary-beige/5 min-h-screen pb-24">
+    <div className="pt-20 bg-transparent min-h-screen pb-24">
       <Helmet>
         <title>{t('rooms.title')} | La Posada del Cerro Mendoza</title>
-        <meta name="description" content="Nuestras habitaciones boutique combinan lujo, confort y las mejores vistas de la cordillera mendocina." />
+        <meta name="description" content={t('rooms.roomsDesc')} />
       </Helmet>
 
       {/* Header Section */}
@@ -95,7 +95,7 @@ const RoomsPage = () => {
       {/* Rooms List */}
       <section className="max-w-7xl mx-auto px-4 mt-20 space-y-20">
         {rooms.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-[3rem] shadow-sm border border-dashed border-gray-200">
+          <div className="text-center py-20 bg-primary-beige/30 rounded-[3rem] shadow-sm border border-dashed border-gray-200">
              <h3 className="text-2xl font-serif text-primary-brown mb-4">{t('rooms.noRooms') || 'No hay habitaciones disponibles.'}</h3>
              <p className="text-gray-500">{t('rooms.contactUs') || 'Contáctanos directamente para consultar disponibilidad.'}</p>
           </div>
@@ -105,7 +105,7 @@ const RoomsPage = () => {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-500`}
+            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} bg-primary-beige/40 rounded-[2rem] shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-500`}
           >
             {/* Image Section */}
             <div className="lg:w-1/2 h-80 lg:h-auto overflow-hidden group">
@@ -172,9 +172,9 @@ const RoomsPage = () => {
 
       {/* CTA Section */}
       <section className="max-w-4xl mx-auto px-4 mt-32 text-center bg-primary-olive/10 p-16 rounded-[3rem] border-2 border-dashed border-primary-olive/20">
-         <h2 className="text-3xl font-serif text-primary-brown mb-6">¿Buscás algo especial?</h2>
-         <p className="text-gray-600 mb-10">Contactanos para eventos privados, retiros corporativos o estadías prolongadas con descuentos exclusivos.</p>
-         <Link to="/#contact" className="inline-block bg-primary-olive text-white px-10 py-4 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all">Consúltanos por Whatsapp</Link>
+         <h2 className="text-3xl font-serif text-primary-brown mb-6">{t('cta.somethingSpecial')}</h2>
+         <p className="text-gray-600 mb-10">{t('cta.specialDesc')}</p>
+         <Link to="/#contact" className="inline-block bg-primary-olive text-white px-10 py-4 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all">{t('cta.consultWA')}</Link>
       </section>
     </div>
   );

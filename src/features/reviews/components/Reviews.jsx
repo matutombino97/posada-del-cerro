@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Star, MessageSquare, Send, CheckCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { db } from '../../../services/firebase';
+import { db, isDemoMode } from '../../../services/firebase';
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp, orderBy } from 'firebase/firestore';
+import { MOCK_REVIEWS } from '../../../services/mockData';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -11,16 +12,33 @@ const Reviews = () => {
   const [status, setStatus] = useState('idle'); // idle, loading, success
 
   useEffect(() => {
+    if (isDemoMode) {
+      setReviews(MOCK_REVIEWS);
+      setLoading(false);
+      return;
+    }
+
     const q = query(
       collection(db, 'reseñas'), 
       where('approved', '==', true),
       orderBy('createdAt', 'desc')
     );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setImages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))); // Wait, setImages? No, setReviews.
-      setReviews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setLoading(false);
-    });
+    const unsubscribe = onSnapshot(q, 
+      (snapshot) => {
+        const firestoreReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (firestoreReviews.length > 0) {
+          setReviews(firestoreReviews);
+        } else {
+          setReviews(MOCK_REVIEWS); // Fallback to mock
+        }
+        setLoading(false);
+      },
+      (error) => {
+        console.warn("Firestore reviews error, using mock data:", error.code);
+        setReviews(MOCK_REVIEWS);
+        setLoading(false);
+      }
+    );
     return () => unsubscribe();
   }, []);
 

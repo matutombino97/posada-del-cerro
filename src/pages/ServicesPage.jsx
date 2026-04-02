@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { Waves, Sparkles, Coffee, Utensils, Wifi, Car, Mountain, Martini } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 
 const ServicesPage = () => {
+  const { t } = useTranslation();
   const mainServices = [
     {
       title: "Piscina Climatizada",
@@ -38,6 +41,10 @@ const ServicesPage = () => {
 
   return (
     <div className="pt-20 bg-[#FDFBF7] min-h-screen">
+      <Helmet>
+        <title>{t('navbar.services')} | La Posada del Cerro</title>
+        <meta name="description" content="Servicios exclusivos y experiencias boutique en nuestra posada de Mendoza." />
+      </Helmet>
       {/* Hero */}
       <section className="relative h-[60vh] flex items-center justify-center text-center px-4 overflow-hidden">
          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1571011270251-561b7f038f88?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-fixed bg-center">

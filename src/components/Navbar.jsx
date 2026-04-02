@@ -1,45 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'es' ? 'en' : 'es';
-    i18n.changeLanguage(newLang);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: t('navbar.rooms'), href: '/habitaciones' },
     { name: t('navbar.services'), href: '/servicios' },
+    { name: t('navbar.promotions'), href: '/promociones' },
     { name: t('navbar.gallery'), href: '/galeria' },
     { name: t('navbar.blog'), href: '/blog' },
     { name: t('navbar.contact'), href: '/contacto' },
   ];
 
+  const isHome = location.pathname === '/';
+
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-primary-brown/5 shadow-sm">
-      <div className="w-full px-4 md:px-8 mx-auto">
-        <div className="flex justify-between h-20 items-center gap-4">
-          {/* Logo - Shifted more to the left */}
-          <Link to="/" className="flex-shrink-0 flex items-center group pl-2">
-            <span className="text-2xl md:text-3xl font-serif font-black text-primary-brown tracking-tighter group-hover:text-primary-olive transition-all duration-500 cursor-pointer">
-              La Posada <span className="text-primary-olive group-hover:text-primary-brown italic transition-colors">del Cerro</span>
+    <nav 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
+        scrolled 
+          ? 'py-6' 
+          : 'py-8'
+      }`}
+    >
+      <div className={`mx-auto px-4 md:px-8 transition-all duration-700 ${
+        scrolled ? 'max-w-7xl' : 'max-w-[95%]'
+      }`}>
+        <div className={`flex justify-between items-center gap-6 lg:gap-10 px-10 py-5 rounded-[2rem] transition-all duration-700 ${
+          scrolled 
+            ? 'glass shadow-premium' 
+            : 'glass'
+        }`}>
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0 flex items-center group mr-12">
+            <span className="text-xl lg:text-2xl font-serif font-black tracking-tighter transition-all duration-500 text-primary-brown">
+              La Posada <span className="text-primary-olive italic font-light">del Cerro</span>
             </span>
           </Link>
 
-          {/* Desktop Menu - Increased spacing */}
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-12 pr-2">
-            <div className="flex items-center space-x-6 lg:space-x-10">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
+            <div className="flex items-center space-x-6 lg:space-x-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="text-gray-500 hover:text-primary-brown font-black transition-all duration-300 relative group whitespace-nowrap cursor-pointer text-[10px] lg:text-xs uppercase tracking-[0.2em]"
+                  className={`font-black transition-all duration-300 relative group text-[10px] uppercase tracking-[0.2em] text-black hover:text-primary-brown`}
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-olive transition-all duration-300 group-hover:w-full"></span>
@@ -47,36 +67,28 @@ const Navbar = () => {
               ))}
             </div>
             
-            <div className="flex items-center space-x-4 lg:space-x-6">
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center text-primary-olive hover:text-primary-brown transition-all duration-300 uppercase font-black text-[10px] bg-primary-olive/5 hover:bg-primary-olive/10 px-4 py-2 rounded-full border border-primary-olive/10 cursor-pointer"
-              >
-                <Globe className="w-3 h-3 mr-2" />
-                {i18n.language === 'es' ? 'EN' : 'ES'}
-              </button>
-
-              <Link
-                to="/reserve"
-                className="bg-primary-brown text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive transform hover:scale-105 active:scale-95 transition-all shadow-xl hover:shadow-primary-olive/20 flex items-center cursor-pointer"
+            <div className="flex items-center space-x-4">
+              <a
+                href="https://wa.me/5492613433108?text=Hola!%20Quisiera%20consultar%20disponibilidad%20en%20La%20Posada%20del%20Cerro"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`px-8 py-3.5 rounded-2xl font-black uppercase text-[10px] tracking-widest transform hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center cursor-pointer ${
+                  scrolled || !isHome
+                    ? 'bg-primary-brown text-white hover:bg-primary-olive shadow-primary-brown/20'
+                    : 'bg-white text-primary-brown hover:bg-primary-beige shadow-black/20'
+                }`}
               >
                 <Calendar className="w-3 h-3 mr-2" />
                 {t('navbar.reserve')}
-              </Link>
+              </a>
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-4 pr-2">
-             <button
-              onClick={toggleLanguage}
-              className="text-primary-olive font-black text-xs uppercase tracking-widest"
-            >
-              {i18n.language === 'es' ? 'EN' : 'ES'}
-            </button>
+          <div className="md:hidden flex items-center space-x-4">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-primary-brown hover:text-primary-olive transition-colors p-2"
+              className="p-2 transition-colors text-primary-brown"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -88,18 +100,18 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed inset-x-4 top-24 z-50 glass rounded-[2.5rem] overflow-hidden shadow-premium md:hidden"
           >
-            <div className="px-6 py-8 space-y-4">
+            <div className="px-8 py-10 space-y-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block py-3 text-primary-brown hover:text-primary-olive font-black uppercase text-sm tracking-widest transition-colors border-b border-gray-50"
+                  className="block text-primary-brown hover:text-primary-olive font-black uppercase text-sm tracking-[0.2em] transition-colors border-b border-primary-brown/10 pb-2"
                 >
                   {link.name}
                 </Link>
@@ -107,7 +119,7 @@ const Navbar = () => {
               <Link
                 to="/reserve"
                 onClick={() => setIsOpen(false)}
-                className="block w-full text-center bg-primary-brown text-white px-6 py-5 rounded-2xl font-black uppercase text-sm tracking-widest mt-6 shadow-xl active:scale-95 transition-transform"
+                className="block w-full text-center bg-primary-brown text-white px-6 py-5 rounded-2xl font-black uppercase text-sm tracking-widest mt-8 shadow-xl"
               >
                 {t('navbar.reserve')}
               </Link>

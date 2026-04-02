@@ -1,210 +1,209 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Calendar as CalendarIcon, Users, CreditCard, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { format, differenceInDays, isWithinInterval, parseISO } from 'date-fns';
-import { db } from '../../../services/firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { Calendar as CalendarIcon, Users, Send, CheckCircle, Home } from 'lucide-react';
+import { MOCK_ROOMS } from '../../../services/mockData';
 
 const BookingForm = ({ roomData }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
-  const [submitted, setSubmitted] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [isAvailable, setIsAvailable] = useState(null);
-  const [checking, setChecking] = useState(false);
+  const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({
+    defaultValues: {
+      roomId: roomData?.id || '',
+      guests: '1'
+    }
+  });
 
+  const selectedRoomId = watch('roomId');
   const checkIn = watch('checkIn');
   const checkOut = watch('checkOut');
 
+  // Find the selected room from MOCK_ROOMS
+  const selectedRoom = MOCK_ROOMS.find(r => r.id === selectedRoomId);
+  const maxCapacity = selectedRoom?.capacity || 5;
+
+  // Reset guests if current selection exceeds new room's capacity
   useEffect(() => {
-    if (checkIn && checkOut) {
-      const start = new Date(checkIn);
-      const end = new Date(checkOut);
-      const days = differenceInDays(end, start);
-      
-      if (days > 0) {
-        setTotalPrice(days * (roomData?.price || 120));
-        checkAvailability();
-      } else {
-        setTotalPrice(0);
-        setIsAvailable(null);
-      }
+    const currentGuests = parseInt(watch('guests'));
+    if (currentGuests > maxCapacity) {
+      setValue('guests', String(maxCapacity));
     }
-  }, [checkIn, checkOut, roomData]);
+  }, [selectedRoomId, maxCapacity, setValue, watch]);
 
-  const checkAvailability = async () => {
-    if (!checkIn || !checkOut || !roomData?.id) return;
-    
-    setChecking(true);
-    try {
-      const q = query(
-        collection(db, 'reservas'),
-        where('roomId', '==', roomData.id),
-        where('status', '!=', 'cancelada')
-      );
-      
-      const querySnapshot = await getDocs(q);
-      const bookings = querySnapshot.docs.map(doc => doc.data());
-      
-      const requestedIn = parseISO(checkIn);
-      const requestedOut = parseISO(checkOut);
-      
-      const hasOverlap = bookings.some(booking => {
-        const existingIn = parseISO(booking.checkIn);
-        const existingOut = parseISO(booking.checkOut);
-        
-        return (requestedIn < existingOut && requestedOut > existingIn);
-      });
-      
-      setIsAvailable(!hasOverlap);
-    } catch (error) {
-      console.error("Error checking availability:", error);
-    } finally {
-      setChecking(false);
+  // Sync checkIn and checkOut: if checkIn changes and becomes > checkOut, clear checkOut
+  useEffect(() => {
+    if (checkIn && checkOut && checkIn >= checkOut) {
+      setValue('checkOut', '');
     }
-  };
+  }, [checkIn, checkOut, setValue]);
 
-  const onSubmit = async (data) => {
-    if (!isAvailable) {
-      alert("Lo sentimos, estas fechas ya no están disponibles.");
+  const onSubmit = (data) => {
+    // Honeypot security check: if this hidden field is filled, it's likely a bot
+    if (data.website) {
+      console.warn("Honeypot filled. Bot detected.");
       return;
     }
 
-    try {
-      const bookingData = {
-        ...data,
-        roomId: roomData?.id,
-        roomName: roomData?.name || 'Habitación seleccionada',
-        totalPrice,
-        status: 'pendiente',
-        createdAt: serverTimestamp()
-      };
-      
-      await addDoc(collection(db, 'reservas'), bookingData);
-      setSubmitted(true);
-      reset();
-    } catch (error) {
-      console.error("Error saving booking:", error);
-      alert("Hubo un error al procesar tu reserva. Por favor intenta de nuevo.");
-    }
+    const room = MOCK_ROOMS.find(r => r.id === data.roomId);
+    const roomName = room ? room.name : 'Sin especificar';
+    const roomPrice = room ? `$${room.price}/noche` : '';
+
+    const message = [
+      `Hola! Quisiera realizar una reserva en La Posada del Cerro.`,
+      ``,
+      `📋 *Datos de la reserva:*`,
+      `🏨 Habitación: ${roomName} ${roomPrice}`,
+      `📅 Check-in: ${data.checkIn}`,
+      `📅 Check-out: ${data.checkOut}`,
+      `👥 Huéspedes: ${data.guests}`,
+      ``,
+      `👤 *Datos personales:*`,
+      `Nombre: ${data.name}`,
+      `Email: ${data.email}`,
+    ].join('%0A');
+
+    const waUrl = `https://wa.me/5492613433108?text=${encodeURIComponent(message).replace(/%250A/g, '%0A')}`;
+    window.open(waUrl, '_blank');
   };
 
-  if (submitted) {
-    return (
-      <div className="bg-white p-12 rounded-2xl shadow-xl text-center reveal active">
-        <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-6" />
-        <h3 className="text-3xl font-serif text-primary-brown mb-4">¡Reserva Enviada!</h3>
-        <p className="text-gray-600 mb-8">
-          Hemos recibido tu solicitud. Te enviaremos un email de confirmación a <strong>{watch('email')}</strong> a la brevedad.
-        </p>
-        <button 
-          onClick={() => setSubmitted(false)}
-          className="bg-primary-brown text-white px-8 py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all"
-        >
-          Volver
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-white p-8 md:p-12 rounded-2xl shadow-2xl border border-primary-beige/20">
-      <h3 className="text-3xl font-serif text-primary-brown mb-8 flex items-center">
-        <CalendarIcon className="w-8 h-8 mr-4 text-primary-olive" />
-        Reserva tu Estadía
+    <div className="glass p-10 md:p-16 rounded-[3rem] shadow-premium border-white/40 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary-olive/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
+      
+      <h3 className="text-4xl font-serif text-primary-brown mb-12 flex items-center">
+        <CalendarIcon className="w-10 h-10 mr-6 text-primary-olive opacity-80" />
+        {t('booking.formHeader')}
       </h3>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Dates */}
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-500 uppercase">Fecha Entrada</label>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+        {/* Honeypot field - Hidden from humans, visible to bots */}
+        <input 
+          type="text" 
+          {...register('website')} 
+          tabIndex="-1" 
+          autoComplete="off" 
+          className="hidden" 
+          style={{ display: 'none' }}
+        />
+
+        {/* Room Selector */}
+        <div className="space-y-3">
+          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
+            <Home className="w-3 h-3 inline mr-2" />
+            Habitación
+          </label>
+          <select 
+            {...register('roomId', { required: true })}
+            className={`w-full bg-white/40 border ${errors.roomId ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown cursor-pointer`}
+          >
+            <option value="">Selecciona una habitación...</option>
+            {MOCK_ROOMS.map(room => (
+              <option key={room.id} value={room.id}>
+                {room.name} — ${room.price}/noche (máx. {room.capacity} pers.)
+              </option>
+            ))}
+          </select>
+          {errors.roomId && <p className="text-red-500 text-[10px] ml-1">Selecciona una habitación</p>}
+        </div>
+
+        {/* Dates */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="space-y-3">
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkIn')}</label>
             <input 
               type="date" 
               {...register('checkIn', { required: true })}
-              className="w-full bg-primary-beige/5 border border-primary-beige/30 rounded-lg p-3 focus:outline-none focus:border-primary-olive transition-colors"
+              className={`w-full bg-white/40 border ${errors.checkIn ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown`}
             />
           </div>
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-500 uppercase">Fecha Salida</label>
+          <div className="space-y-3">
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkOut')}</label>
             <input 
               type="date" 
-              {...register('checkOut', { required: true })}
-              className="w-full bg-primary-beige/5 border border-primary-beige/30 rounded-lg p-3 focus:outline-none focus:border-primary-olive transition-colors"
+              {...register('checkOut', { 
+                required: true,
+                validate: (value) => !checkIn || value > checkIn || t('booking.errorDate')
+              })}
+              min={checkIn}
+              className={`w-full bg-white/40 border ${errors.checkOut ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown`}
             />
+            {errors.checkOut && <p className="text-red-500 text-[10px] ml-1">{errors.checkOut.message}</p>}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-          {/* Guests & Room */}
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-500 uppercase">Huéspedes</label>
-            <select 
-              {...register('guests', { required: true })}
-              className="w-full bg-primary-beige/5 border border-primary-beige/30 rounded-lg p-3 focus:outline-none focus:border-primary-olive transition-colors"
-            >
-              {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n} Huésped{n > 1 ? 'es' : ''}</option>)}
-            </select>
+        {/* Guests - dynamic based on room */}
+        <div className="space-y-3">
+          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
+            <Users className="w-3 h-3 inline mr-2" />
+            {t('booking.guests')} {selectedRoom && <span className="text-primary-olive">(máx. {maxCapacity})</span>}
+          </label>
+          <select 
+            {...register('guests', { required: true })}
+            className="w-full bg-white/40 border border-white/60 rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown cursor-pointer"
+          >
+            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map(n => (
+              <option key={n} value={n}>{n} {n === 1 ? 'Huésped' : 'Huéspedes'}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* User Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-white/40">
+          <div className="space-y-1">
+            <input 
+              placeholder={t('booking.fullName')} 
+              {...register('name', { required: true })}
+              className={`w-full bg-transparent border-b ${errors.name ? 'border-red-500' : 'border-primary-brown/20'} py-4 focus:border-primary-brown focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest`}
+            />
+            {errors.name && <p className="text-red-500 text-[10px]">Campo obligatorio</p>}
           </div>
-          <div className="space-y-2 flex flex-col justify-end">
-             {checking && (
-               <div className="flex items-center text-primary-olive text-sm font-bold animate-pulse p-3">
-                 <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Verificando disponibilidad...
-               </div>
-             )}
-             {!checking && isAvailable === true && (
-               <div className="flex items-center text-green-600 text-sm font-bold bg-green-50 p-3 rounded-lg">
-                 <CheckCircle className="w-4 h-4 mr-2" /> ¡Disponible para estas fechas!
-               </div>
-             )}
-             {!checking && isAvailable === false && (
-               <div className="flex items-center text-red-600 text-sm font-bold bg-red-50 p-3 rounded-lg">
-                 <AlertCircle className="w-4 h-4 mr-2" /> No hay disponibilidad en este rango.
-               </div>
-             )}
+          <div className="space-y-1">
+            <input 
+              type="email" 
+              placeholder={t('booking.email')} 
+              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+              className={`w-full bg-transparent border-b ${errors.email ? 'border-red-500' : 'border-primary-brown/20'} py-4 focus:border-primary-brown focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest`}
+            />
+            {errors.email && <p className="text-red-500 text-[10px]">Email inválido</p>}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
-           <div className="space-y-4 pt-4 border-t border-primary-beige/10 w-full">
-              {/* User Info */}
-              <input 
-                placeholder="Nombre Completo" 
-                {...register('name', { required: true })}
-                className="w-full border-b border-primary-beige/40 py-3 focus:border-primary-brown focus:outline-none transition-colors"
-              />
-              <input 
-                type="email" 
-                placeholder="Correo Electrónico" 
-                {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-                className="w-full border-b border-primary-beige/40 py-3 focus:border-primary-brown focus:outline-none transition-colors"
-              />
-              <input 
-                placeholder="Teléfono / WhatsApp" 
-                {...register('phone', { required: true })}
-                className="w-full border-b border-primary-beige/40 py-3 focus:border-primary-brown focus:outline-none transition-colors"
-              />
-           </div>
-           
-           <div className="text-right">
-             {totalPrice > 0 && (
-               <div className="bg-primary-olive/10 p-4 rounded-2xl inline-block min-w-[150px]">
-                 <p className="text-gray-500 text-xs uppercase font-bold tracking-widest mb-1">Total</p>
-                 <p className="text-3xl font-serif text-primary-olive font-bold">${totalPrice}</p>
-               </div>
-             )}
-           </div>
-        </div>
+        {/* Price Summary */}
+        {selectedRoom && checkIn && checkOut && checkOut > checkIn && (
+          <div className="bg-primary-brown shadow-xl p-8 rounded-[2rem] text-left relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-full h-full bg-white/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-700" />
+            <div className="flex justify-between items-center relative z-10">
+              <div>
+                <p className="text-primary-beige/50 text-[10px] uppercase font-black tracking-[0.3em] mb-1">{selectedRoom.name}</p>
+                <p className="text-primary-beige/40 text-[10px]">
+                  {Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24))} noches
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-primary-beige/50 text-[10px] uppercase font-black tracking-[0.3em] mb-1">{t('booking.total')}</p>
+                <span className="text-3xl font-serif text-white font-bold">
+                  ${selectedRoom.price * Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24))}
+                </span>
+                <span className="text-primary-beige/40 text-[10px] uppercase ml-2">USD</span>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {/* Submit Button - goes to WhatsApp */}
         <button 
           type="submit"
-          disabled={!isAvailable || checking}
-          className="w-full bg-primary-brown text-white py-5 rounded-xl text-xl font-bold shadow-lg hover:bg-opacity-90 transform transition active:scale-[0.98] flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group relative w-full bg-primary-brown text-white py-6 rounded-2xl text-xs font-black uppercase tracking-[0.4em] shadow-premium hover:bg-primary-olive transform transition-all duration-500 active:scale-[0.98] flex items-center justify-center overflow-hidden"
         >
-          <Send className="w-5 h-5 mr-3 group-hover:translate-x-1 transition-transform" />
-          {isAvailable === false ? 'Fechas no disponibles' : 'Confirmar Solicitud de Reserva'}
+          <span className="relative z-10 flex items-center">
+            <Send className="w-4 h-4 mr-4 group-hover:translate-x-2 transition-transform duration-500" />
+            {t('booking.submit')}
+          </span>
+          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
         </button>
+
+        <p className="text-center text-gray-400 text-xs italic">
+          Al enviar, serás redirigido a WhatsApp para confirmar tu reserva directamente con nosotros.
+        </p>
       </form>
     </div>
   );

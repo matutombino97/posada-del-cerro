@@ -54,8 +54,8 @@ const BlogPage = () => {
   return (
     <div className="pt-32 pb-24 bg-[#F4ECD8] min-h-screen">
       <Helmet>
-        <title>{t('blog.title')} | Historias y Guías de Mendoza</title>
-        <meta name="description" content="Descubre los mejores secretos de Mendoza: bodegas, montañas y la vida en La Posada del Cerro." />
+        <title>{t('navbar.blog')} | La Posada del Cerro</title>
+        <meta name="description" content="Lee las últimas noticias y consejos sobre Mendoza en nuestro blog boutique." />
       </Helmet>
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-6xl font-serif text-primary-brown mb-12 text-center">{t('blog.title')}</h1>

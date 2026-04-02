@@ -10,6 +10,10 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+# Local env files
+.env
+.env.local
+.env.*.local
 *.local
 
 # Editor directories and files
@@ -22,3 +26,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tools
+.eslintcache
+.netlify
+.vercel
+node_modules/
+.docker/

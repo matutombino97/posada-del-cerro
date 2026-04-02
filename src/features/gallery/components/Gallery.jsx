@@ -6,9 +6,11 @@ import { X, Maximize2, Loader2 } from 'lucide-react';
 import { db, isDemoMode } from '../../../services/firebase';
 import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
 import { MOCK_GALLERY } from '../../../services/mockData';
+import { useScrollReveal } from '../../../hooks/useScrollReveal';
 
 const Gallery = () => {
   const { t } = useTranslation();
+  useScrollReveal();
   const [selectedImg, setSelectedImg] = useState(null);
   const [filter, setFilter] = useState('all');
   const [images, setImages] = useState([]);
@@ -79,7 +81,7 @@ const Gallery = () => {
                 className={`px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-500 transform hover:scale-110 active:scale-90 cursor-pointer ${
                   filter === cat.id 
                     ? 'bg-primary-brown text-white shadow-2xl ring-4 ring-primary-brown/10' 
-                    : 'bg-white text-gray-400 hover:text-primary-brown hover:bg-white border border-gray-100 shadow-sm hover:shadow-xl'
+                    : 'bg-primary-beige/30 text-gray-400 hover:text-primary-brown hover:bg-white border border-gray-100 shadow-sm hover:shadow-xl'
                 }`}
               >
                 {cat.name}

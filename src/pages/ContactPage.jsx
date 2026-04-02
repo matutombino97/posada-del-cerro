@@ -6,18 +6,14 @@ const ContactPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="pt-32 pb-24 bg-[#F4ECD8] min-h-screen">
+    <div className="pt-24 pb-24 bg-[#FDFBF7] min-h-screen">
       <Helmet>
         <title>{t('navbar.contact')} | La Posada del Cerro Mendoza</title>
         <meta name="description" content="¿Tienes dudas? Ponte en contacto con nosotros. Estamos en el corazón de Luján de Cuyo, Mendoza." />
       </Helmet>
-      <div className="max-w-7xl mx-auto px-4 text-center mb-16">
-        <h1 className="text-6xl font-serif text-primary-brown mb-6">{t('navbar.contact')}</h1>
-        <p className="text-primary-brown/60 italic max-w-2xl mx-auto text-lg font-light">
-          {t('blog.subtitle') || 'Estamos aquí para responder tus dudas y ayudarte a planificar la mejor estadía en Mendoza.'}
-        </p>
-      </div>
+      
       <Contact />
+
       
       {/* Optional: Map Section */}
       <div className="max-w-7xl mx-auto px-4 mt-20">

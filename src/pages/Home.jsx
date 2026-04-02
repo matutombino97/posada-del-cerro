@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Star, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
+import WelcomeSection from '../components/WelcomeSection';
 import RoomCard from '../features/rooms/components/RoomCard';
 import Reviews from '../features/reviews/components/Reviews';
 import BlogPreview from '../features/blog/components/BlogPreview';
@@ -11,6 +12,8 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { db, isDemoMode } from '../services/firebase';
 import { collection, query, where, limit, onSnapshot } from 'firebase/firestore';
 import { MOCK_ROOMS } from '../services/mockData';
+
+import QuickBookingBar from '../features/bookings/components/QuickBookingBar';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -60,6 +63,7 @@ const Home = () => {
       </Helmet>
 
       <Hero />
+      <WelcomeSection />
       
       {/* Rooms Grid Section - Highlights */}
       <section id="rooms" className="py-32 px-4 max-w-7xl mx-auto">
@@ -110,8 +114,23 @@ const Home = () => {
                   </div>
                   Noches de Humo y Brasas
                </div>
+               <div className="flex items-center gap-4 text-primary-brown font-semibold">
+                  <div className="w-12 h-12 bg-primary-olive/10 rounded-2xl flex items-center justify-center text-primary-olive">
+                     <Star size={20} />
+                  </div>
+                  Wine Tasting Privado
+               </div>
+               <div className="flex items-center gap-4 text-primary-brown font-semibold">
+                  <div className="w-12 h-12 bg-primary-olive/10 rounded-2xl flex items-center justify-center text-primary-olive">
+                     <Star size={20} />
+                  </div>
+                  Masajes y Spa Boutique
+               </div>
+               <div className="flex items-center gap-4 text-primary-olive font-black uppercase text-[10px] tracking-widest bg-primary-olive/5 p-4 rounded-2xl border border-primary-olive/10 w-fit">
+                  {t('booking.available') ? 'y más...' : 'y más...'}
+               </div>
             </div>
-            <Link to="/servicios" className="inline-block border-b-2 border-primary-brown text-primary-brown font-black uppercase text-[10px] tracking-widest pb-2 hover:text-primary-olive hover:border-primary-olive transition-all"> {t('navbar.services')} </Link>
+            <Link to="/servicios" className="inline-block bg-primary-olive text-white px-12 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-brown transition-all shadow-xl transform hover:scale-105 active:scale-95"> {t('navbar.services')} </Link>
           </div>
           <div className="lg:w-1/2 grid grid-cols-2 gap-4 reveal">
              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000" className="rounded-[3rem] h-[500px] w-full object-cover shadow-2xl" alt="Event" />
@@ -127,13 +146,13 @@ const Home = () => {
       <section className="py-24 px-4 max-w-7xl mx-auto reveal">
          <div className="bg-primary-brown rounded-[4rem] p-12 md:p-24 text-white relative overflow-hidden flex flex-col items-center text-center shadow-[0_50px_100px_-20px_rgba(58,41,23,0.3)]">
             <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-                <img src="https://images.unsplash.com/photo-1482867996988-29ec3aee816d?q=80&w=2000" alt="Background" className="w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1482867996988-29ec3aee816d?q=80&w=2000" alt="" aria-hidden="true" className="w-full h-full object-cover" />
             </div>
             <div className="relative z-10 max-w-3xl">
                <span className="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[.3em] mb-8 inline-block">Ofertas de Invierno</span>
                <h2 className="text-5xl md:text-7xl font-serif mb-10 leading-tight italic">4 noches por el precio de 3.</h2>
                <p className="text-primary-beige/70 text-xl font-light mb-12">Disfrutá de la nieve mendocina con nuestra promoción exclusiva de temporada. Quedate más, viví más.</p>
-               <Link to="/promociones" className="bg-white text-primary-brown px-12 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive hover:text-white transition-all transform hover:scale-110 shadow-2xl">
+               <Link to="/promociones" className="bg-primary-beige text-primary-brown px-12 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive hover:text-white transition-all transform hover:scale-110 shadow-2xl">
                   {t('navbar.promotions')}
                </Link>
             </div>
@@ -151,7 +170,7 @@ const Home = () => {
             <p className="text-primary-beige/70 text-xl mb-12 font-light leading-relaxed">
               Explora visualmente nuestra posada, desde los amaneceres sobre la viña hasta las noches estrelladas frente al fuego.
             </p>
-            <Link to="/galeria" className="inline-flex items-center bg-white text-primary-brown px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive hover:text-white transition-all transform hover:scale-110 active:scale-95 shadow-2xl group">
+            <Link to="/galeria" className="inline-flex items-center bg-primary-beige text-primary-brown px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive hover:text-white transition-all transform hover:scale-110 active:scale-95 shadow-2xl group">
               {t('navbar.gallery')} <span className="ml-3 transform group-hover:translate-x-2 transition-transform">→</span>
             </Link>
           </div>
@@ -174,7 +193,7 @@ const Home = () => {
       </div>
 
       {/* Contact CTA Banner */}
-      <section className="py-32 bg-[#FAF7F0] border-y border-primary-brown/5">
+      <section className="py-32 border-y border-primary-brown/5">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-6xl font-serif text-primary-brown mb-8 leading-tight">¿Listo para una experiencia inolvidable?</h2>
           <p className="text-gray-500 text-xl mb-12 font-light">Escribinos para consultas personalizadas o reservas de grupos especiales.</p>
@@ -182,12 +201,13 @@ const Home = () => {
             <Link to="/contacto" className="bg-primary-brown text-white px-14 py-6 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-olive transition-all transform hover:scale-110 shadow-2xl">
               {t('navbar.contact')}
             </Link>
-            <a href="https://wa.me/5492613433108" className="bg-white border-2 border-primary-brown text-primary-brown px-14 py-6 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-gray-50 transition-all transform hover:scale-110 shadow-xl">
+            <a href="https://wa.me/5492613433108" className="bg-primary-beige/20 border-2 border-primary-brown text-primary-brown px-14 py-6 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-primary-beige transition-all transform hover:scale-110 shadow-xl">
               WhatsApp
             </a>
           </div>
         </div>
       </section>
+      <QuickBookingBar />
     </div>
   );
 };

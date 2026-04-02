@@ -26,8 +26,16 @@ const resources = {
       welcome: {
         subtitle: "Our Story",
         title: "Welcome to La Posada del Cerro",
+        titlePrefix: "Welcome to",
+        titleSpan: "La Posada",
+        titleSuffix: "del Cerro",
         p1: "Located in the beating heart of Mendoza, our boutique inn is the ideal retreat for those looking to disconnect without giving up elegance.",
-        p2: "We offer curated experiences that combine Mendoza tradition with modern comfort, surrounded by the most inspiring landscapes of the foothills."
+        p2: "We offer curated experiences that combine Mendoza tradition with modern comfort, surrounded by the most inspiring landscapes of the foothills.",
+        callUs: "Call us",
+        writeUs: "Write us",
+        visitUs: "Visit us",
+        reserveWA: "Reserve via WhatsApp",
+        consultEmail: "Consult via Email"
       },
       rooms: {
         title: "Our Rooms",
@@ -108,17 +116,7 @@ const resources = {
         headerSubtitle: "Take advantage of our special offers and live the boutique experience of Mendoza at a preferential price.",
         priceText: "Access to"
       },
-      welcome: {
-        subtitle: "Our Story",
-        titlePrefix: "Welcome to",
-        titleSpan: "La Posada",
-        titleSuffix: "del Cerro",
-        callUs: "Call us",
-        writeUs: "Write us",
-        visitUs: "Visit us",
-        reserveWA: "Reserve via WhatsApp",
-        consultEmail: "Consult via Email"
-      },
+
       cta: {
         somethingSpecial: "Looking for something special?",
         specialDesc: "Contact us for private events, corporate retreats or extended stays with exclusive discounts.",
@@ -149,8 +147,16 @@ const resources = {
       welcome: {
         subtitle: "Nuestra Historia",
         title: "Bienvenido a La Posada del Cerro",
+        titlePrefix: "Bienvenido a",
+        titleSpan: "La Posada",
+        titleSuffix: "del Cerro",
         p1: "Ubicada en el corazón latente de Mendoza, nuestra posada boutique es el refugio ideal para quienes buscan desconectar sin renunciar a la elegancia.",
-        p2: "Ofrecemos experiencias curadas que combinan la tradición mendocina con el confort moderno, rodeados de los paisajes más inspiradores de la precordillera."
+        p2: "Ofrecemos experiencias curadas que combinan la tradición mendocina con el confort moderno, rodeados de los paisajes más inspiradores de la precordillera.",
+        callUs: "Llámanos",
+        writeUs: "Escríbenos",
+        visitUs: "Visítanos",
+        reserveWA: "Reservar por WhatsApp",
+        consultEmail: "Consultar por Email"
       },
       rooms: {
         title: "Nuestras Habitaciones",
@@ -231,17 +237,7 @@ const resources = {
         headerSubtitle: "Aprovecha nuestras ofertas especiales y vive la experiencia boutique de Mendoza a un precio preferencial.",
         priceText: "Accede a"
       },
-      welcome: {
-        subtitle: "Nuestra Historia",
-        titlePrefix: "Bienvenido a",
-        titleSpan: "La Posada",
-        titleSuffix: "del Cerro",
-        callUs: "Llámanos",
-        writeUs: "Escríbenos",
-        visitUs: "Visítanos",
-        reserveWA: "Reservar por WhatsApp",
-        consultEmail: "Consultar por Email"
-      },
+
       cta: {
         somethingSpecial: "¿Buscás algo especial?",
         specialDesc: "Contactanos para eventos privados, retiros corporativos o estadías prolongadas con descuentos exclusivos.",

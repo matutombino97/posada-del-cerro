@@ -1,21 +1,34 @@
-Guiones de Venta para WhatsApp
-Aquí tienes tres enfoques para contactar a dueños de hostales o gerentes comerciales. Tip: Envía siempre el link de la DEMO (Vercel) al final del mensaje.
+# 💬 Guiones de Venta para WhatsApp
 
-Opción 1: Enfoque "Ahorro de Comisiones" (El más efectivo)
-"Hola [Nombre]! 👋 Estaba viendo la página de [Nombre del Hostel] y me encanta el estilo que tienen. Sin embargo, noté que dependen mucho de Booking o Airbnb para las reservas.
+Aquí tienes los dos enfoques principales para contactar a dueños de hostales o gerentes, dependiendo del tamaño y situación de su negocio. **Tip**: Envía siempre el link de tu DEMO (Vercel) al final del mensaje.
 
-Te escribo porque acabo de terminar un desarrollo para un hostel boutique que está enfocado en captar reservas directas por WhatsApp. El sistema calcula todo (personas, fechas, precio) y te llega el mensaje listo para confirmar.
+---
 
-¿Sabías que con solo 70-80 noches que reserves directo por tu web te ahorrás lo mismo que pagarías por el sitio completo? El resto es ganancia pura. Te paso el link para que lo veas desde el celu: [LINK DE TU DEMO]"
+### Opción 1: Enfoque "Plata y Ahorro" (Para Hosteles GRANDES o con muchas reservas en Booking)
 
-Opción 2: Enfoque "Imagen de Lujo / Marca" (Para hoteles más caros)
-"Hola [Nombre]! ¿Cómo estás? Te escribo porque me especializo en diseño web boutique para el sector turismo en Mendoza.
+**Objetivo:** Mostrarles cómo tu web les ahorra miles de dólares en comisiones de plataformas de terceros.
 
-Vi el potencial de [Nombre del Hostel] y sentí que le falta una vidriera digital que esté a la altura de la experiencia real que ofrecen. He creado una interfaz tipo 'Glassmorphism' con animaciones premium que eleva muchísimo la percepción de precio por noche.
+"Hola [Nombre]! 👋 Estaba viendo la página de [Nombre del Hostel] y la increíble reputación que tienen en Booking/Airbnb.
 
-Si te interesa que tu marca se vea de 5 estrellas en Google y redes, pegale una mirada a esta demo: [LINK DE TU DEMO]. Abrazo!"
+Noté que la web actual no tiene un sistema de reserva directa tan potente, lo que hace que muchos huéspedes terminen reservando por Booking y ustedes dejen un 15-20% de comisión en la mesa.
 
-Opción 3: El "Mensaje Corto" (Para conocidos o contactos rápidos)
-"Qué tal [Nombre]! Che, estoy trabajando en un nuevo concepto de web boutique para hostales. 🏨
+Te escribo porque acabo de diseñar una plataforma boutique enfocada justamente en **captar esas reservas directas por WhatsApp**. El sistema calcula todo (pax, fechas, precio) y te llega el mensaje listo para cerrar la venta. Con solo un par de reservas mensuales que vengan por ahí, la web se paga sola.
 
-Básicamente es un sitio ultra-rápido que manda las reservas directo a tu WhatsApp, ahorrándote el 20% de comisión de las plataformas. Te paso el link para que lo chusmees cuando puedas y me digas qué te parece la visual: [LINK DE TU DEMO]"
+Avisame si te interesa y te paso un link para que veas cómo funciona la demo desde tu celu: [LINK DE TU DEMO]"
+
+---
+
+### Opción 2: Enfoque "Imagen, Status y Crecimiento" (Para Hosteles CHICOS o NUEVOS)
+
+**Objetivo:** Vender profesionalismo, confianza para el huésped y un canal de ventas sin gastos fijos.
+
+"Hola [Nombre]! 👋 Felicitaciones por el proyecto de [Nombre del Hostel], estuve viendo las fotos y tienen un lugar hermoso.
+
+Te escribo porque, sobre todo cuando uno está creciendo, lo más importante es **generar confianza** para que los huéspedes se animen a reservar directamente. Hoy en día, una web profesional es la diferencia entre una reserva confirmada o una consulta que queda en visto.
+
+He diseñado una web boutique que les permite:
+1. **Verse como un hotel 5 estrellas** desde el primer día.
+2. **Recibir reservas directo a su WhatsApp**, súper fácil para el cliente y sin comisiones para ustedes.
+3. No tener gastos fijos de software mensual mientras arrancan.
+
+Fijate cómo se siente la experiencia desde el celular con esta demo que preparé: [LINK DE TU DEMO]"

@@ -59,7 +59,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`font-black transition-all duration-300 relative group text-[10px] uppercase tracking-[0.2em] text-black hover:text-primary-brown`}
+                  className={`font-black transition-all duration-300 relative group text-[10px] uppercase tracking-[0.2em] text-black hover:text-primary-brown focus-visible:outline-2 focus-visible:outline-primary-olive focus-visible:outline-offset-2 rounded px-2 py-1`}
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-olive transition-all duration-300 group-hover:w-full"></span>

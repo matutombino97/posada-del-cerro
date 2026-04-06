@@ -1,12 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { StructuredData, hotelSchema } from './StructuredData';
 
 const Hero = () => {
   const { t } = useTranslation();
 
   return (
     <section className="relative h-[100vh] flex items-center justify-center overflow-hidden">
+      <StructuredData data={hotelSchema} />
+      
       {/* Hero Background with Video & Ken Burns */}
       <div className="absolute inset-0 z-0">
         <video
@@ -14,10 +17,13 @@ const Hero = () => {
           loop
           muted
           playsInline
+          preload="auto"
           className="w-full h-full object-cover animate-kenburns shadow-inner"
           poster="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070"
+          aria-label="Video de fondo: lujo hostal con piscina y palmeras al atardecer"
         >
           <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-resort-with-a-pool-and-palm-trees-at-sunset-1205-large.mp4" type="video/mp4" />
+          <p>Tu navegador no soporta videos HTML5. Considera actualizar tu navegador.</p>
         </video>
         {/* Subtle gradient overlay - stronger on left for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />

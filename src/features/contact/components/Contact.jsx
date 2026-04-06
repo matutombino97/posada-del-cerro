@@ -132,39 +132,52 @@ const Contact = () => {
                 <h3 className="text-3xl font-serif text-primary-brown mb-10 text-center italic">{t('contact.formTitle') || 'Envíanos un mensaje'}</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">{t('contact.name') || 'Nombre'}</label>
+                    <label htmlFor="contact_name" className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">{t('contact.name') || 'Nombre'}</label>
                     <input 
-                      {...register('name', { required: true })}
+                      id="contact_name"
+                      {...register('name', { required: 'El nombre es requerido' })}
                       placeholder="Tu nombre completo"
-                      className="w-full bg-primary-beige/5 border-b-2 border-primary-olive/10 py-4 px-1 focus:outline-none focus:border-primary-brown transition-colors font-light text-primary-brown" 
+                      className={`w-full bg-primary-beige/5 border-b-2 transition-colors font-light text-primary-brown py-4 px-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive ${errors.name ? 'border-red-500 bg-red-50/10' : 'border-primary-olive/10 focus:outline-none focus:border-primary-brown'}`}
+                      aria-invalid={errors.name ? "true" : "false"}
+                      aria-describedby={errors.name ? "contact_name_error" : undefined}
                     />
+                    {errors.name && <span id="contact_name_error" className="text-red-600 text-xs font-bold">{errors.name.message}</span>}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">Email</label>
+                    <label htmlFor="contact_email" className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">Email</label>
                     <input 
+                      id="contact_email"
                       type="email"
-                      {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                      {...register('email', { required: 'El email es requerido', pattern: { value: /^\S+@\S+$/i, message: 'Email inválido' } })}
                       placeholder="email@ejemplo.com"
-                      className="w-full bg-primary-beige/5 border-b-2 border-primary-olive/10 py-4 px-1 focus:outline-none focus:border-primary-brown transition-colors font-light text-primary-brown" 
+                      className={`w-full bg-primary-beige/5 border-b-2 transition-colors font-light text-primary-brown py-4 px-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive ${errors.email ? 'border-red-500 bg-red-50/10' : 'border-primary-olive/10 focus:outline-none focus:border-primary-brown'}`}
+                      aria-invalid={errors.email ? "true" : "false"}
+                      aria-describedby={errors.email ? "contact_email_error" : undefined}
                     />
+                    {errors.email && <span id="contact_email_error" className="text-red-600 text-xs font-bold">{errors.email.message}</span>}
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">{t('contact.message') || 'Mensaje'}</label>
+                    <label htmlFor="contact_message" className="text-[10px] font-black text-primary-olive uppercase tracking-[0.3em] px-1">{t('contact.message') || 'Mensaje'}</label>
                     <textarea 
+                      id="contact_message"
                       rows="4" 
-                      {...register('message', { required: true })}
+                      {...register('message', { required: 'El mensaje es requerido' })}
                       placeholder="¿En qué podemos ayudarte?"
-                      className="w-full bg-primary-beige/5 border-b-2 border-primary-olive/10 py-4 px-1 focus:outline-none focus:border-primary-brown transition-colors font-light text-primary-brown resize-none"
+                      className={`w-full bg-primary-beige/5 border-b-2 transition-colors font-light text-primary-brown py-4 px-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive resize-none ${errors.message ? 'border-red-500 bg-red-50/10' : 'border-primary-olive/10 focus:outline-none focus:border-primary-brown'}`}
+                      aria-invalid={errors.message ? "true" : "false"}
+                      aria-describedby={errors.message ? "contact_message_error" : undefined}
                     ></textarea>
+                    {errors.message && <span id="contact_message_error" className="text-red-600 text-xs font-bold">{errors.message.message}</span>}
                   </div>
                   <button 
+                    type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-primary-brown text-white py-6 rounded-full font-black uppercase text-xs tracking-[0.3em] flex items-center justify-center hover:bg-primary-olive shadow-[0_20px_50px_rgba(58,41,23,0.2)] hover:shadow-primary-olive/30 transition-all transform hover:scale-[1.05] active:scale-95 cursor-pointer disabled:opacity-50"
+                    className="w-full bg-primary-brown text-white py-6 rounded-full font-black uppercase text-xs tracking-[0.3em] flex items-center justify-center hover:bg-primary-olive shadow-[0_20px_50px_rgba(58,41,23,0.2)] hover:shadow-primary-olive/30 transition-all transform hover:scale-[1.05] active:scale-95 cursor-pointer disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive"
                   >
-                    {status === 'loading' ? <Loader2 className="w-5 h-5 animate-spin mr-4" /> : <Send className="w-5 h-5 mr-4" />}
+                    {status === 'loading' ? <Loader2 className="w-5 h-5 animate-spin mr-4" aria-hidden="true" /> : <Send className="w-5 h-5 mr-4" aria-hidden="true" />}
                     {status === 'loading' ? '...' : t('reviews.send')}
                   </button>
-                  {status === 'error' && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest text-center mt-4">Hubo un error. Intenta de nuevo.</p>}
+                  {status === 'error' && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest text-center mt-4" role="alert">Hubo un error. Intenta de nuevo.</p>}
                 </form>
               </>
             )}

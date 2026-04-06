@@ -86,6 +86,37 @@ h6 {
   transform: translateY(0) scale(1);
 }
 
+/* Focus Visible States for Accessibility */
+:focus-visible {
+  outline: 2px solid #3F6212;
+  outline-offset: 2px;
+}
+
+/* Input Focus States */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid #3F6212;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(63, 98, 18, 0.1);
+}
+
+/* Smooth transition for form validation states */
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Enhanced Link Focus */
+a:focus-visible {
+  outline: 2px solid #3F6212;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* Ken Burns Effect */
 @keyframes kenburns {
   0% {

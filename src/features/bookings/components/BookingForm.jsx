@@ -87,13 +87,16 @@ const BookingForm = ({ roomData }) => {
 
         {/* Room Selector */}
         <div className="space-y-3">
-          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
-            <Home className="w-3 h-3 inline mr-2" />
+          <label htmlFor="booking_room" className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
+            <Home className="w-3 h-3 inline mr-2" aria-hidden="true" />
             Habitación
           </label>
           <select 
-            {...register('roomId', { required: true })}
-            className={`w-full bg-white/40 border ${errors.roomId ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown cursor-pointer`}
+            id="booking_room"
+            {...register('roomId', { required: 'Selecciona una habitación' })}
+            className={`w-full bg-white/40 border rounded-2xl p-5 transition-all shadow-sm font-bold text-primary-brown cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive ${errors.roomId ? 'border-red-500 bg-red-50/20' : 'border-white/60 focus:outline-none focus:border-primary-olive focus:bg-white'}`}
+            aria-invalid={errors.roomId ? "true" : "false"}
+            aria-describedby={errors.roomId ? "booking_room_error" : undefined}
           >
             <option value="">Selecciona una habitación...</option>
             {MOCK_ROOMS.map(room => (
@@ -102,43 +105,51 @@ const BookingForm = ({ roomData }) => {
               </option>
             ))}
           </select>
-          {errors.roomId && <p className="text-red-500 text-[10px] ml-1">Selecciona una habitación</p>}
+          {errors.roomId && <p id="booking_room_error" className="text-red-500 text-[10px] ml-1 font-bold">{errors.roomId.message}</p>}
         </div>
 
         {/* Dates */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkIn')}</label>
+            <label htmlFor="booking_checkin" className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkIn')}</label>
             <input 
+              id="booking_checkin"
               type="date" 
-              {...register('checkIn', { required: true })}
-              className={`w-full bg-white/40 border ${errors.checkIn ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown`}
+              {...register('checkIn', { required: 'Selecciona una fecha de ingreso' })}
+              className={`w-full bg-white/40 border rounded-2xl p-5 transition-all shadow-sm font-bold text-primary-brown focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive ${errors.checkIn ? 'border-red-500 bg-red-50/20' : 'border-white/60 focus:outline-none focus:border-primary-olive focus:bg-white'}`}
+              aria-invalid={errors.checkIn ? "true" : "false"}
+              aria-describedby={errors.checkIn ? "booking_checkin_error" : undefined}
             />
+            {errors.checkIn && <p id="booking_checkin_error" className="text-red-500 text-[10px] ml-1 font-bold">{errors.checkIn.message}</p>}
           </div>
           <div className="space-y-3">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkOut')}</label>
+            <label htmlFor="booking_checkout" className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">{t('booking.checkOut')}</label>
             <input 
+              id="booking_checkout"
               type="date" 
               {...register('checkOut', { 
-                required: true,
-                validate: (value) => !checkIn || value > checkIn || t('booking.errorDate')
+                required: 'Selecciona una fecha de egreso',
+                validate: (value) => !checkIn || value > checkIn || 'El checkout debe ser posterior al check-in'
               })}
               min={checkIn}
-              className={`w-full bg-white/40 border ${errors.checkOut ? 'border-red-500' : 'border-white/60'} rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown`}
+              className={`w-full bg-white/40 border rounded-2xl p-5 transition-all shadow-sm font-bold text-primary-brown focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive ${errors.checkOut ? 'border-red-500 bg-red-50/20' : 'border-white/60 focus:outline-none focus:border-primary-olive focus:bg-white'}`}
+              aria-invalid={errors.checkOut ? "true" : "false"}
+              aria-describedby={errors.checkOut ? "booking_checkout_error" : undefined}
             />
-            {errors.checkOut && <p className="text-red-500 text-[10px] ml-1">{errors.checkOut.message}</p>}
+            {errors.checkOut && <p id="booking_checkout_error" className="text-red-500 text-[10px] ml-1 font-bold">{errors.checkOut.message}</p>}
           </div>
         </div>
 
         {/* Guests - dynamic based on room */}
         <div className="space-y-3">
-          <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
-            <Users className="w-3 h-3 inline mr-2" />
+          <label htmlFor="booking_guests" className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] ml-1">
+            <Users className="w-3 h-3 inline mr-2" aria-hidden="true" />
             {t('booking.guests')} {selectedRoom && <span className="text-primary-olive">(máx. {maxCapacity})</span>}
           </label>
           <select 
+            id="booking_guests"
             {...register('guests', { required: true })}
-            className="w-full bg-white/40 border border-white/60 rounded-2xl p-5 focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown cursor-pointer"
+            className="w-full bg-white/40 border border-white/60 rounded-2xl p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive focus:outline-none focus:border-primary-olive focus:bg-white transition-all shadow-sm font-bold text-primary-brown cursor-pointer"
           >
             {Array.from({ length: maxCapacity }, (_, i) => i + 1).map(n => (
               <option key={n} value={n}>{n} {n === 1 ? 'Huésped' : 'Huéspedes'}</option>
@@ -150,27 +161,33 @@ const BookingForm = ({ roomData }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-white/40">
           <div className="space-y-1">
             <input 
+              id="booking_name"
               placeholder={t('booking.fullName')} 
-              {...register('name', { required: true })}
-              className={`w-full bg-transparent border-b ${errors.name ? 'border-red-500' : 'border-primary-brown/20'} py-4 focus:border-primary-brown focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest`}
+              {...register('name', { required: 'El nombre es requerido' })}
+              className={`w-full bg-transparent border-b py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest ${errors.name ? 'border-red-500' : 'border-primary-brown/20 focus:border-primary-brown'}`}
+              aria-invalid={errors.name ? "true" : "false"}
+              aria-describedby={errors.name ? "booking_name_error" : undefined}
             />
-            {errors.name && <p className="text-red-500 text-[10px]">Campo obligatorio</p>}
+            {errors.name && <p id="booking_name_error" className="text-red-500 text-[10px] font-bold">{errors.name.message}</p>}
           </div>
           <div className="space-y-1">
             <input 
+              id="booking_email"
               type="email" 
               placeholder={t('booking.email')} 
-              {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-              className={`w-full bg-transparent border-b ${errors.email ? 'border-red-500' : 'border-primary-brown/20'} py-4 focus:border-primary-brown focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest`}
+              {...register('email', { required: 'El email es requerido', pattern: { value: /^\S+@\S+$/i, message: 'Email inválido' } })}
+              className={`w-full bg-transparent border-b py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive focus:outline-none transition-colors font-bold text-primary-brown placeholder:text-gray-400 placeholder:font-normal uppercase text-xs tracking-widest ${errors.email ? 'border-red-500' : 'border-primary-brown/20 focus:border-primary-brown'}`}
+              aria-invalid={errors.email ? "true" : "false"}
+              aria-describedby={errors.email ? "booking_email_error" : undefined}
             />
-            {errors.email && <p className="text-red-500 text-[10px]">Email inválido</p>}
+            {errors.email && <p id="booking_email_error" className="text-red-500 text-[10px] font-bold">{errors.email.message}</p>}
           </div>
         </div>
 
         {/* Price Summary */}
         {selectedRoom && checkIn && checkOut && checkOut > checkIn && (
-          <div className="bg-primary-brown shadow-xl p-8 rounded-[2rem] text-left relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-full bg-white/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-700" />
+          <div className="bg-primary-brown shadow-xl p-8 rounded-[2rem] text-left relative overflow-hidden group" role="region" aria-live="polite">
+            <div className="absolute top-0 left-0 w-full h-full bg-white/5 -translate-x-full group-hover:translate-x-0 transition-transform duration-700" aria-hidden="true" />
             <div className="flex justify-between items-center relative z-10">
               <div>
                 <p className="text-primary-beige/50 text-[10px] uppercase font-black tracking-[0.3em] mb-1">{selectedRoom.name}</p>
@@ -192,13 +209,13 @@ const BookingForm = ({ roomData }) => {
         {/* Submit Button - goes to WhatsApp */}
         <button 
           type="submit"
-          className="group relative w-full bg-primary-brown text-white py-6 rounded-2xl text-xs font-black uppercase tracking-[0.4em] shadow-premium hover:bg-primary-olive transform transition-all duration-500 active:scale-[0.98] flex items-center justify-center overflow-hidden"
+          className="group relative w-full bg-primary-brown text-white py-6 rounded-2xl text-xs font-black uppercase tracking-[0.4em] shadow-premium hover:bg-primary-olive transform transition-all duration-500 active:scale-[0.98] flex items-center justify-center overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive"
         >
           <span className="relative z-10 flex items-center">
-            <Send className="w-4 h-4 mr-4 group-hover:translate-x-2 transition-transform duration-500" />
+            <Send className="w-4 h-4 mr-4 group-hover:translate-x-2 transition-transform duration-500" aria-hidden="true" />
             {t('booking.submit')}
           </span>
-          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-500" aria-hidden="true" />
         </button>
 
         <p className="text-center text-gray-400 text-xs italic">

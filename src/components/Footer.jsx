@@ -52,8 +52,24 @@ const Footer = () => {
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-10 text-primary-olive">Social</h3>
             <div className="flex space-x-6 mb-12">
-              <a href="#" className="bg-white/5 p-4 rounded-3xl hover:bg-primary-olive hover:text-white transition-all duration-500 shadow-xl border border-white/5"><Instagram className="w-5 h-5" /></a>
-              <a href="#" className="bg-white/5 p-4 rounded-3xl hover:bg-primary-olive hover:text-white transition-all duration-500 shadow-xl border border-white/5"><Facebook className="w-5 h-5" /></a>
+              <a 
+                href="https://instagram.com/laposadadelcerro" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/5 p-4 rounded-3xl hover:bg-primary-olive hover:text-white transition-all duration-500 shadow-xl border border-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive transform hover:scale-110 active:scale-95"
+                aria-label="Seguir en Instagram"
+              >
+                <Instagram className="w-5 h-5" aria-hidden="true" />
+              </a>
+              <a 
+                href="https://facebook.com/laposadadelcerro" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/5 p-4 rounded-3xl hover:bg-primary-olive hover:text-white transition-all duration-500 shadow-xl border border-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-olive transform hover:scale-110 active:scale-95"
+                aria-label="Seguir en Facebook"
+              >
+                <Facebook className="w-5 h-5" aria-hidden="true" />
+              </a>
             </div>
             <p className="text-[10px] text-primary-beige/30 uppercase font-black tracking-widest leading-loose">
               Síguenos para descubrir <br /> promociones exclusivas.

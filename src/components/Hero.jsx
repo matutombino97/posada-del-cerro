@@ -45,7 +45,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-7xl md:text-[10rem] font-serif font-black text-white mb-4 drop-shadow-2xl leading-[0.9] tracking-tighter"
+          className="text-5xl sm:text-7xl md:text-[8rem] lg:text-[10rem] font-serif font-black text-white mb-4 drop-shadow-2xl leading-[0.9] tracking-tighter"
         >
           {t('hero.title').split(' ').map((word, i) => (
             <span key={i} className={i === 1 ? "font-accent italic font-light text-primary-beige" : ""}>

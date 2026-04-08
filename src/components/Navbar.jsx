@@ -37,16 +37,16 @@ const Navbar = () => {
           : 'py-8'
       }`}
     >
-      <div className={`mx-auto px-4 md:px-8 transition-all duration-700 ${
-        scrolled ? 'max-w-7xl' : 'max-w-[95%]'
+      <div className={`mx-auto px-2 sm:px-4 md:px-8 transition-all duration-700 ${
+        scrolled ? 'max-w-7xl' : 'max-w-[100%] md:max-w-[95%]'
       }`}>
-        <div className={`flex justify-between items-center gap-6 lg:gap-10 px-10 py-5 rounded-[2rem] transition-all duration-700 ${
+        <div className={`flex justify-between items-center gap-2 lg:gap-10 px-5 py-4 md:px-10 md:py-5 rounded-[2rem] transition-all duration-700 ${
           scrolled 
             ? 'glass shadow-premium' 
             : 'glass'
         }`}>
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 flex items-center group mr-12">
+          <Link to="/" className="flex-shrink-0 flex items-center group mr-auto md:mr-12">
             <span className="text-xl lg:text-2xl font-serif font-black tracking-tighter transition-all duration-500 text-primary-brown">
               La Posada <span className="text-primary-olive italic font-light">del Cerro</span>
             </span>
